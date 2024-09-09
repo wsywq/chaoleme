@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/meal?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: root
+
+sftp:
+  # 本地前端项目地址
+  path: C:\Users\woshi\WebstormProjects\practice\public

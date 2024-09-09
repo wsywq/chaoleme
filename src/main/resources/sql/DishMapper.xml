@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ywq.mapper.DishMapper">
+
+    <select id="getDishIdByOrderId" resultType="com.ywq.entity.Dish">
+        select id,
+               name,
+               category_id,
+               description,
+               image_url,
+               create_time,
+               remark,
+               update_time,
+               heat_level,
+               count
+        from dish
+        where order_id = #{orderId}
+    </select>
+
+</mapper>

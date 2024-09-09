@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: chaoleme
+  profiles:
+    active: dev
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: assign_id
+
+remote:
+  # 和风天气开发服务
+  hefeng-weather:
+    weather: https://devapi.qweather.com/v7/weather
+    city: https://geoapi.qweather.com/v2/city
+    privateKey: b9c31119f9ed4b949f32a620b4cf8ef1
+
