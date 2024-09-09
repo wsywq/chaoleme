@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://106.54.32.95:3306/meal?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: My5qLt#7!f
+
+# file prod location
+sftp:
+  path: /home/tomcat/uploadFile

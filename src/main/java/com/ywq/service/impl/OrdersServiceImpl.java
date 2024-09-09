@@ -3,8 +3,10 @@ package com.ywq.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ywq.dto.DishDto;
+import com.ywq.dto.OrderListDto;
 import com.ywq.entity.*;
 import com.ywq.mapper.OrdersMapper;
+import com.ywq.mapper.PO.OrderListPO;
 import com.ywq.service.*;
 import com.ywq.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +28,15 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Autowired
     private DishService dishService;
 
+    @Autowired
+    private OrdersMapper ordersMapper;
+
     @Transactional
     public void submit(List<DishDto> dishDtoList) {
         long orderId = IdWorker.getId();
         Orders order = Orders.builder()
                 .id(orderId)
-                .checkoutTime(DateUtils.getTodayDate())
+                .checkoutTime(LocalDateTime.now())
                 .status(4)
                 .remark("无")
                 .build();
@@ -43,41 +50,33 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             return orderDetail;
         }).collect(Collectors.toList());
 
-        try{
+        try {
             orderDetailService.saveBatch(orderDetails);
             this.save(order);
 
-            log.info("Update dish");
+            log.info("Update dish successfully");
             dishService.submitDishList(dishDtoList);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     @Override
-    public List<DishDto> getTodayOrder() {
-
-        return null;
+    public List<OrderListDto> getTodayOrder() {
+        try {
+            List<OrderListPO> orderListPOS = ordersMapper.getFullOrderByDate(DateUtils.getTodayDate());
+            log.info("query today order deial:", orderListPOS);
+            return orderListPOS.stream().map(po -> OrderListDto.builder()
+                    .id(po.getId())
+                    .checkoutTime(po.getCheckoutTime())
+                    .dishName(po.getName())
+                    .dishImageUrl(po.getImageUrl())
+                    .build()).collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
-
-//    private Orders setOrdersDetail(long id, Orders orders, User user, AddressBook addressBook, AtomicInteger amount) {
-//        orders.setId(id);
-//        orders.setOrderTime(LocalDateTime.now());
-//        orders.setCheckoutTime(LocalDateTime.now());
-//        orders.setStatus(2);
-//        orders.setAmount(new BigDecimal(amount.get()));
-//        orders.setNumber(String.valueOf(id));
-//        orders.setUserId(user.getId());
-//        orders.setUserName(user.getName());
-//        orders.setConsignee(addressBook.getConsignee());
-//        orders.setPhone(addressBook.getPhone());
-//        orders.setAddressBookId(addressBook.getId());
-//        orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName())
-//                + (addressBook.getCityName() == null ? "" : addressBook.getCityName())
-//                + (addressBook.getDistrictName() == null ? "" : addressBook.getDistrictName())
-//                + (addressBook.getDetail() == null ? "" : addressBook.getDetail()));
-//        return orders;
-//    }
 }

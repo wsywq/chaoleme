@@ -2,6 +2,7 @@ package com.ywq.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ywq.dto.DishDto;
+import com.ywq.dto.OrderListDto;
 import com.ywq.entity.Orders;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
 public interface OrdersService extends IService<Orders> {
     public void submit(List<DishDto> dishDtoList);
 
-    public List<DishDto> getTodayOrder();
+    public List<OrderListDto> getTodayOrder();
 }

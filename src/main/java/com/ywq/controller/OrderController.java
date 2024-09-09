@@ -2,6 +2,7 @@ package com.ywq.controller;
 
 import com.ywq.common.ResponseTemplate;
 import com.ywq.dto.DishDto;
+import com.ywq.dto.OrderListDto;
 import com.ywq.service.OrdersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping("/today")
-    public ResponseTemplate<List<DishDto>> getTodayOrder(){
+    public ResponseTemplate<List<OrderListDto>> getTodayOrder(){
         log.info("Get today order");
         return ResponseTemplate.success(ordersService.getTodayOrder());
     }

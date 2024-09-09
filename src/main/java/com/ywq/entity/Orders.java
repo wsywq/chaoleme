@@ -26,7 +26,7 @@ public class Orders implements Serializable {
 
 //    private LocalDateTime orderTime;
 
-    private String checkoutTime;
+    private LocalDateTime checkoutTime;
 
 //    private Integer payMethod;
 

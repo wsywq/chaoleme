@@ -11,4 +11,12 @@
         where checkout_time = #{checkoutTime}
     </select>
 
+    <select id="getFullOrderByDate" resultType="com.ywq.mapper.PO.OrderListPO">
+        select os.id, os.checkout_time, d.name, d.image_url
+        from orders os
+                 left join order_detail od on os.id = od.order_id
+                 left join dish d on d.id = od.dish_id
+        where DATE_FORMAT(os.checkout_time, '%Y-%m-%d') = #{checkoutTime};
+    </select>
+
 </mapper>
