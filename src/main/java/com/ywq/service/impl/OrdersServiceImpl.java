@@ -66,10 +66,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     public List<OrderListDto> getTodayOrder() {
         try {
             List<OrderListPO> orderListPOS = ordersMapper.getFullOrderByDate(DateUtils.getTodayDate());
-            log.info("query today order deial:", orderListPOS);
+            log.info("query today order detail: {}", orderListPOS);
             return orderListPOS.stream().map(po -> OrderListDto.builder()
                     .id(po.getId())
-                    .checkoutTime(po.getCheckoutTime())
+                    .checkoutTime(DateUtils.getLocalTime(po.getCheckoutTime()))
                     .dishName(po.getName())
                     .dishImageUrl(po.getImageUrl())
                     .build()).collect(Collectors.toList());

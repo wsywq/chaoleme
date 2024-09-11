@@ -2,16 +2,20 @@ package com.ywq.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
 public class OrderListDto {
+    // Order Id
     private Long id;
-    private LocalDateTime checkoutTime;
+
+    // Order checkout_time "HH:mm:ss"
+    private String checkoutTime;
+
+    // 菜品名称
     private String dishName;
+
+    // 菜品图片
     private String dishImageUrl;
 }
 
