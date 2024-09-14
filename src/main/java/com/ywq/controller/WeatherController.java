@@ -20,7 +20,7 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GetMapping("/today")
-    @Cacheable(cacheManager = "weatherCacheManager", cacheNames = "today", key = "#{location}")
+    @Cacheable(cacheManager = "weatherCacheManager", cacheNames = "today", key = "#location")
     public ResponseTemplate<WeatherDto> getWeather(@RequestParam String location) {
         try {
             log.info("getTodayWeather location is:" + location);

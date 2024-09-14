@@ -21,6 +21,7 @@ public class CacheConfig {
                 .expireAfterWrite(1, TimeUnit.HOURS);
 
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
+        caffeineCacheManager.setAllowNullValues(true);
         caffeineCacheManager.setCaffeine(caffeine);
         return caffeineCacheManager;
     }
