@@ -5,6 +5,7 @@ import com.ywq.dto.WeatherDto;
 import com.ywq.service.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GetMapping("/today")
+    @Cacheable(cacheManager = "weatherCacheManager", cacheNames = "today", key = "#{location}")
     public ResponseTemplate<WeatherDto> getWeather(@RequestParam String location) {
         try {
             log.info("getTodayWeather location is:" + location);
