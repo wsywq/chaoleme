@@ -5,6 +5,9 @@ spring:
     name: chaoleme
   profiles:
     active: dev
+  banner:
+    charset: UTF-8
+    location: classpath:banner.txt
 mybatis-plus:
   mapper-locations: classpath*:/sql/**/*.xml
   configuration:
@@ -13,6 +16,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: assign_id
+
+
 
 remote:
   # 和风天气开发服务
