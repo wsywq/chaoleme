@@ -8,6 +8,8 @@ spring:
   banner:
     charset: UTF-8
     location: classpath:banner.txt
+logging:
+  config: classpath:log4j2.xml
 mybatis-plus:
   mapper-locations: classpath*:/sql/**/*.xml
   configuration:

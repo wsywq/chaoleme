@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" monitorInterval="30">
+
+    <!--变量配置-->
+    <Properties>
+        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+        <!-- %logger{36} 表示 Logger 名字最长36个字符
+        %date{YYYY:MM:dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %l - %msg%n -->
+        <property name="LOG_PATTERN" value="%date{YYYY:MM:dd HH:mm:ss.SSS} [%thread] %-5level %l -%M - %msg%n"/>
+        <!-- 定义日志存储的路径 -->
+        <property name="FILE_PATH" value="logs/myapp.log"/>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="applicationAppender" fileName="${FILE_PATH}/chaoleme.log"
+                     filePattern="logs/$${date:yyyy-MM-dd}/run-%d{yyyy-MM-dd}-%i.log">
+            <!--文件只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="fatal" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--日志消息输出格式-->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <!--日志拆分规则-->
+            <Policies>
+                <!--在系统启动时,生成一个新的日志文件-->
+                <OnStartupTriggeringPolicy/>
+                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下10个文件开始覆盖-->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <!--Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。-->
+    <!--然后定义loggers，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!--过滤掉spring和mybatis的一些无用的信息-->
+        <logger name="org.mybatis" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </logger>
+        <!--监控系统信息-->
+        <!--若是additivity设为false，则子Logger只会在自己的appender里输出，不会在父Logger里输出。-->
+        <Logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <root level="info">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="infoJournal"/>
+            <appender-ref ref="debugJournal"/>
+        </root>
+    </loggers>
+</Configuration>
