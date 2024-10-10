@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 public class DateUtils {
 
-    private static final String YYYY_MM_DD = "yyyy-MM-dd";
-    private static final String HH_MM_SS = "HH:mm:ss";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String HH_MM_SS = "HH:mm:ss";
 
     public static String getTodayDate() {
         LocalDate now = LocalDate.now();
