@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +25,7 @@ public class CommonController {
     public ResponseTemplate<String> uploadFile(@RequestParam("image") MultipartFile file) {
         log.info("Upload file");
         String originalFilename = file.getOriginalFilename();
+        assert originalFilename != null;
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
         String fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
         File fileDir = new File(basePath);
@@ -47,7 +47,7 @@ public class CommonController {
     @GetMapping("/download")
     public void downloadFile(String name, HttpServletResponse response) {
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+            FileInputStream fileInputStream = new FileInputStream(basePath + name);
             ServletOutputStream outputStream = response.getOutputStream();
             response.setContentType("image/jpeg");
 
