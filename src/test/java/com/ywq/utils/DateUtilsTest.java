@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @SpringBootTest
@@ -28,9 +27,11 @@ public class DateUtilsTest {
         LocalDateTime dateTime = LocalDateTime.now();
         String localTime = DateUtils.getLocalTime(dateTime);
         assertNotNull(localTime);
-        // Verify that the time is in the correct format
+
+        // Verify that the date is in the correct format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateUtils.HH_MM_SS);
-        LocalTime parsedTime = LocalTime.parse(localTime, formatter);
-        assertEquals(dateTime.toLocalTime(), parsedTime);
+        String expectedTime = dateTime.toLocalTime().format(formatter);
+
+        assertEquals(expectedTime, localTime);
     }
 }
